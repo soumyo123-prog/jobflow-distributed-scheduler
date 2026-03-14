@@ -1,11 +1,15 @@
 package com.jobflow.scheduler.service.impl;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jobflow.scheduler.constant.JobStatus;
 import com.jobflow.scheduler.constant.JobType;
 import com.jobflow.scheduler.dto.request.SubmitJobRequest;
+import com.jobflow.scheduler.dto.response.GetJobStatusResponse;
 import com.jobflow.scheduler.dto.response.SubmitJobResponse;
 import com.jobflow.scheduler.entity.JobEntity;
 import com.jobflow.scheduler.repository.JobRepository;
@@ -26,12 +30,17 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     this.jobRepository.save(job);
 
-    SubmitJobResponse response = new SubmitJobResponse();
+    return SubmitJobResponse.fromJobEntity(job);
+  }
 
-    response.setJobId(job.getId());
-    response.setStatus(job.getStatus());
+  @Override
+  public GetJobStatusResponse getJobStatusJob(UUID jobId) {
+    Optional<JobEntity> job = jobRepository.findById(jobId);
 
-    return response;
+    if (!job.isPresent()) {
+      return null;
+    }
+    return GetJobStatusResponse.fromJobEntity(job.get());
   }
 
 }
