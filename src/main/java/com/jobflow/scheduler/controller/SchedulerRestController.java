@@ -30,7 +30,7 @@ public class SchedulerRestController {
 
   @GetMapping("/jobs/{jobId}")
   public ResponseEntity<GetJobStatusResponse> getJobStatus(@PathVariable UUID jobId) {
-    GetJobStatusResponse response = this.schedulerService.getJobStatusJob(jobId);
+    GetJobStatusResponse response = this.schedulerService.getJobStatus(jobId);
 
     if (response == null) {
       return ResponseEntity.notFound().build();

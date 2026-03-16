@@ -9,5 +9,5 @@ import com.jobflow.scheduler.dto.response.SubmitJobResponse;
 public interface SchedulerService {
   SubmitJobResponse submitJob(SubmitJobRequest submitJobRequest);
 
-  GetJobStatusResponse getJobStatusJob(UUID jobId);
+  GetJobStatusResponse getJobStatus(UUID jobId);
 }
