@@ -1,4 +1,4 @@
-package com.jobflow.scheduler.service.impl;
+package com.jobflow.scheduler.service.implementation;
 
 import java.util.Optional;
 import java.util.UUID;
