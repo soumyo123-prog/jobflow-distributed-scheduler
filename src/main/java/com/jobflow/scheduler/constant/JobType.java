@@ -1,5 +1,7 @@
 package com.jobflow.scheduler.constant;
 
 public enum JobType {
-  EMAIL
+  EMAIL,
+  LOG,
+  WEBHOOK
 }
