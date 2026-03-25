@@ -1,7 +1,6 @@
 package com.jobflow.scheduler.worker;
 
 import java.time.Duration;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.jobflow.scheduler.entity.JobEntity;
-import com.jobflow.scheduler.executor.JobExecutor;
-import com.jobflow.scheduler.executor.JobExecutorRegistry;
-import com.jobflow.scheduler.repository.JobRepository;
+import com.jobflow.scheduler.service.JobProcessingService;
 
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +25,7 @@ public class JobConsumer {
   private ExecutorService executorService;
 
   @Autowired
-  private JobExecutorRegistry jobExecutorRegistry;
-
-  @Autowired
-  private JobRepository jobRepository;
+  private JobProcessingService jobProcessingService;
 
   @Value("${scheduler.redis.queue.name}")
   private String queueName;
@@ -51,19 +44,7 @@ public class JobConsumer {
           continue;
         }
         this.executorService.submit(() -> {
-          log.info("Processing job: {} on thread: {}", jobId, Thread.currentThread().getName());
-
-          UUID jobIdUuid = UUID.fromString(jobId);
-          JobEntity job = jobRepository.findById(jobIdUuid).get();
-
-          JobExecutor jobExecutor = jobExecutorRegistry.getExecutor(job.getJobType());
-          try {
-            jobExecutor.execute(job);
-          } catch (Exception e) {
-            log.error(
-                String.format("Error while processing job: {} on thread: {}", jobId, Thread.currentThread().getName()),
-                e);
-          }
+          jobProcessingService.processJob(jobId);
         });
       }
     });

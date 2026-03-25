@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.dao.DataAccessException;
 
 import com.jobflow.scheduler.constant.JobStatus;
-import com.jobflow.scheduler.constant.JobType;
 import com.jobflow.scheduler.dispatcher.JobDispatcher;
 import com.jobflow.scheduler.dto.request.SubmitJobRequest;
 import com.jobflow.scheduler.dto.response.GetJobStatusResponse;
@@ -35,7 +34,7 @@ public class DefaultSchedulerService implements SchedulerService {
   public SubmitJobResponse submitJob(SubmitJobRequest submitJobRequest) {
     JobEntity job = new JobEntity();
 
-    job.setJobType(JobType.EMAIL);
+    job.setJobType(submitJobRequest.getJobType());
     job.setPayload(submitJobRequest.getPayload());
     job.setStatus(JobStatus.PENDING);
 

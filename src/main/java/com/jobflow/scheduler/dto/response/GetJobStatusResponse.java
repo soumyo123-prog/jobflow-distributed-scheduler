@@ -15,6 +15,10 @@ public class GetJobStatusResponse {
   private JobType jobType;
   private JobStatus jobStatus;
   private LocalDateTime createdAt;
+  private LocalDateTime startedAt;
+  private LocalDateTime completedAt;
+  private String errorMessage;
+  private String workerThread;
 
   public static GetJobStatusResponse fromJobEntity(JobEntity jobEntity) {
     GetJobStatusResponse response = new GetJobStatusResponse();
@@ -23,6 +27,10 @@ public class GetJobStatusResponse {
     response.setCreatedAt(jobEntity.getCreatedAt());
     response.setJobStatus(jobEntity.getStatus());
     response.setJobType(jobEntity.getJobType());
+    response.setStartedAt(jobEntity.getStartedAt());
+    response.setCompletedAt(jobEntity.getCompletedAt());
+    response.setErrorMessage(jobEntity.getErrorMessage());
+    response.setWorkerThread(jobEntity.getWorkerThread());
 
     return response;
   }

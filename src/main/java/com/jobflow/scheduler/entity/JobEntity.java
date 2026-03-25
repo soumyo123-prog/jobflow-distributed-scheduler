@@ -53,4 +53,16 @@ public class JobEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
   private JobStatus status;
+
+  @Column(name = "started_at")
+  private LocalDateTime startedAt;
+
+  @Column(name = "completed_at")
+  private LocalDateTime completedAt;
+
+  @Column(name = "error_message")
+  private String errorMessage;
+
+  @Column(name = "worker_thread")
+  private String workerThread;
 }
